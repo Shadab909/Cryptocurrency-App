@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/royal_blue_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_512x512</item>
+        <item name="postSplashScreenTheme">@style/Theme.Cryptocurrency</item>
+    </style>
+</resources>
