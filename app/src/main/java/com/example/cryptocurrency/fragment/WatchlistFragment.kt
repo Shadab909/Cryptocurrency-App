@@ -8,26 +8,31 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.cryptocurrency.MyApplication
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.adapter.MarketRecyclerViewAdapter
 import com.example.cryptocurrency.api.ApiInterface
 import com.example.cryptocurrency.api.ApiUtilities
 import com.example.cryptocurrency.databinding.FragmentWatchlistBinding
 import com.example.cryptocurrency.model.CryptoCurrency
+import com.example.cryptocurrency.viewmodel.MarketDataViewModel
+import com.example.cryptocurrency.viewmodel.MarketDataViewModelFactory
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.create
 
 class WatchlistFragment : Fragment() {
 
     private lateinit var binding : FragmentWatchlistBinding
     private lateinit var watchlist : ArrayList<String>
     private lateinit var watchlistItems : ArrayList<CryptoCurrency>
+    private lateinit var mainList : List<CryptoCurrency>
     private lateinit var mAdapter : MarketRecyclerViewAdapter
+    private lateinit var viewModel : MarketDataViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +42,14 @@ class WatchlistFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_watchlist, container, false)
 
         readData()
+        mainList = listOf()
+
+        val repository = (activity?.application as MyApplication).marketDataRepository
+        viewModel = ViewModelProvider(this, MarketDataViewModelFactory(repository))[MarketDataViewModel::class.java]
+        viewModel.cryptoData.observe(viewLifecycleOwner){
+            mainList = it.data.cryptoCurrencyList
+        }
+
 
         lifecycleScope.launch(Dispatchers.IO)
         {
@@ -47,8 +60,15 @@ class WatchlistFragment : Fragment() {
                     watchlistItems = ArrayList()
                     watchlistItems.clear()
 
+//                    for (watchData in watchlist){
+//                        for (item in res.body()!!.data.cryptoCurrencyList){
+//                            if (watchData == item.symbol){
+//                                watchlistItems.add(item)
+//                            }
+//                        }
+//                    }
                     for (watchData in watchlist){
-                        for (item in res.body()!!.data.cryptoCurrencyList){
+                        for (item in mainList){
                             if (watchData == item.symbol){
                                 watchlistItems.add(item)
                             }
