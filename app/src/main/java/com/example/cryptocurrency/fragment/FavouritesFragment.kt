@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.cryptocurrency.MyApplication
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.adapter.MarketRecyclerViewAdapter
 import com.example.cryptocurrency.api.ApiInterface
 import com.example.cryptocurrency.api.ApiUtilities
-import com.example.cryptocurrency.databinding.FragmentWatchlistBinding
+import com.example.cryptocurrency.databinding.FragmentFavouritesBinding
 import com.example.cryptocurrency.model.CryptoCurrency
+import com.example.cryptocurrency.repository.MarketDataRepository
 import com.example.cryptocurrency.viewmodel.MarketDataViewModel
 import com.example.cryptocurrency.viewmodel.MarketDataViewModelFactory
 import com.google.gson.Gson
@@ -25,27 +25,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class WatchlistFragment : Fragment() {
+class FavouritesFragment : Fragment() {
 
-    private lateinit var binding : FragmentWatchlistBinding
+    private lateinit var binding : FragmentFavouritesBinding
     private lateinit var watchlist : ArrayList<String>
     private lateinit var watchlistItems : ArrayList<CryptoCurrency>
     private lateinit var mainList : List<CryptoCurrency>
     private lateinit var mAdapter : MarketRecyclerViewAdapter
     private lateinit var viewModel : MarketDataViewModel
+    private lateinit var marketDataRepository: MarketDataRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_watchlist, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_favourites, container, false)
 
         readData()
         mainList = listOf()
 
-        val repository = (activity?.application as MyApplication).marketDataRepository
-        viewModel = ViewModelProvider(this, MarketDataViewModelFactory(repository))[MarketDataViewModel::class.java]
+        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
+        marketDataRepository = MarketDataRepository(apiInterface)
+        viewModel = ViewModelProvider(this, MarketDataViewModelFactory(marketDataRepository))[MarketDataViewModel::class.java]
         viewModel.cryptoData.observe(viewLifecycleOwner){
             mainList = it.data.cryptoCurrencyList
         }
@@ -93,6 +95,4 @@ class WatchlistFragment : Fragment() {
         val type = object : TypeToken<ArrayList<String>>(){}.type
         watchlist = gson.fromJson(json,type)
     }
-
-
 }

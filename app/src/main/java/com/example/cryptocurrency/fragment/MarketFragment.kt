@@ -18,6 +18,7 @@ import com.example.cryptocurrency.api.ApiInterface
 import com.example.cryptocurrency.api.ApiUtilities
 import com.example.cryptocurrency.databinding.FragmentMarketBinding
 import com.example.cryptocurrency.model.CryptoCurrency
+import com.example.cryptocurrency.repository.MarketDataRepository
 import com.example.cryptocurrency.viewmodel.MarketDataViewModel
 import com.example.cryptocurrency.viewmodel.MarketDataViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,7 @@ class MarketFragment : Fragment() {
     private lateinit var list : List<CryptoCurrency>
     private lateinit var searchText : String
     private lateinit var viewModel : MarketDataViewModel
+    private lateinit var marketDataRepository: MarketDataRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +47,9 @@ class MarketFragment : Fragment() {
         list = listOf()
         searchText = ""
 
-        val repository = (activity?.application as MyApplication).marketDataRepository
-        viewModel = ViewModelProvider(this, MarketDataViewModelFactory(repository))[MarketDataViewModel::class.java]
+        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
+        marketDataRepository = MarketDataRepository(apiInterface)
+        viewModel = ViewModelProvider(this, MarketDataViewModelFactory(marketDataRepository))[MarketDataViewModel::class.java]
 
         binding.currencyRecyclerView.adapter = mAdapter
 

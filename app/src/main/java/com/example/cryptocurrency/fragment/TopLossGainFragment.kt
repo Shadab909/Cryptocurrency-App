@@ -38,6 +38,7 @@ class TopLossGainFragment : Fragment() {
     private lateinit var binding : FragmentTopLossGainBinding
     private lateinit var mAdapter : MarketRecyclerViewAdapter
     private lateinit var viewModel : MarketDataViewModel
+    private lateinit var marketDataRepository: MarketDataRepository
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,8 +46,9 @@ class TopLossGainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_top_loss_gain, container, false)
 
-        val repository = (activity?.application as MyApplication).marketDataRepository
-        viewModel = ViewModelProvider(this,MarketDataViewModelFactory(repository))[MarketDataViewModel::class.java]
+        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
+        marketDataRepository = MarketDataRepository(apiInterface)
+        viewModel = ViewModelProvider(this,MarketDataViewModelFactory(marketDataRepository))[MarketDataViewModel::class.java]
 
         mAdapter = MarketRecyclerViewAdapter("Home")
         binding.topGainLoseRecyclerView.adapter = mAdapter

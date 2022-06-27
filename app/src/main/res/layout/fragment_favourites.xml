@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.WatchlistFragment">
+        tools:context=".fragment.FavouritesFragment">
 
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/watchlist"
+            android:text="@string/favourites"
             android:textColor="@color/dark_blue"
             android:textSize="30sp"
             android:textStyle="bold"

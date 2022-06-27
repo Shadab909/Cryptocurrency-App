@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/watchlistFragment2"
-        android:name="com.example.cryptocurrency.fragment.WatchlistFragment"
+        android:name="com.example.cryptocurrency.fragment.FavouritesFragment"
         android:label="fragment_watchlist"
-        tools:layout="@layout/fragment_watchlist" >
+        tools:layout="@layout/fragment_favourites" >
         <action
             android:id="@+id/action_watchlistFragment2_to_detailsFragment"
             app:destination="@id/detailsFragment" />

@@ -21,6 +21,6 @@
         android:icon="@drawable/ic_bookmark"
         app:showAsAction="always"
         android:enabled="true"
-        android:title="@string/watchlist"/>
+        android:title="@string/favourites"/>
 
 </menu>

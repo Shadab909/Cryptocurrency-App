@@ -169,11 +169,11 @@ class DetailsFragment : Fragment() {
 
         if (data.quotes[0].percentChange24h > 0){
             binding.detailChangeTextView.setTextColor(requireContext().resources.getColor(R.color.green))
-            binding.detailChangeTextView.text = String.format("%.02f",data.quotes[0].percentChange24h)
+            binding.detailChangeTextView.text = String.format("%.02f%%",data.quotes[0].percentChange24h)
             binding.detailChangeImageView.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_caret_up))
         }else{
             binding.detailChangeTextView.setTextColor(requireContext().resources.getColor(R.color.red))
-            binding.detailChangeTextView.text = String.format("%.02f",data.quotes[0].percentChange24h)
+            binding.detailChangeTextView.text = String.format("%.02f%%",data.quotes[0].percentChange24h)
             binding.detailChangeImageView.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_caret_down))
         }
     }

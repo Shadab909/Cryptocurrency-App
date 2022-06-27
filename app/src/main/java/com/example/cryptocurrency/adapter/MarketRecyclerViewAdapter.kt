@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.databinding.CurrencyItemLayoutBinding
+import com.example.cryptocurrency.fragment.FavouritesFragmentDirections
 import com.example.cryptocurrency.fragment.HomeFragmentDirections
 import com.example.cryptocurrency.fragment.MarketFragmentDirections
-import com.example.cryptocurrency.fragment.WatchlistFragmentDirections
 import com.example.cryptocurrency.model.CryptoCurrency
 import com.example.cryptocurrency.model.MarketModel
 
@@ -49,11 +49,11 @@ class MarketRecyclerViewAdapter(val destination : String) : ListAdapter<CryptoCu
 
         if (item.quotes[0].percentChange24h > 0){
             holder.currencyChangeTextView.setTextColor(holder.currencyChangeTextView.context.resources.getColor(R.color.green))
-            holder.currencyChangeTextView.text = String.format("%.02f",item.quotes[0].percentChange24h)
+            holder.currencyChangeTextView.text = String.format("%.02f%%",item.quotes[0].percentChange24h)
             holder.currencyChangeImageView.setImageDrawable(holder.currencyChangeImageView.context.resources.getDrawable(R.drawable.ic_caret_up))
         }else{
             holder.currencyChangeTextView.setTextColor(holder.currencyChangeTextView.context.resources.getColor(R.color.red))
-            holder.currencyChangeTextView.text = String.format("%.02f",item.quotes[0].percentChange24h)
+            holder.currencyChangeTextView.text = String.format("%.02f%%",item.quotes[0].percentChange24h)
             holder.currencyChangeImageView.setImageDrawable(holder.currencyChangeImageView.context.resources.getDrawable(R.drawable.ic_caret_down))
         }
 
@@ -73,7 +73,7 @@ class MarketRecyclerViewAdapter(val destination : String) : ListAdapter<CryptoCu
                 )
             }else{
                 findNavController(it).navigate(
-                    WatchlistFragmentDirections.actionWatchlistFragment2ToDetailsFragment().setData(item)
+                    FavouritesFragmentDirections.actionWatchlistFragment2ToDetailsFragment().setData(item)
                 )
             }
         }
