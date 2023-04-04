@@ -1,6 +1,7 @@
 # Cryptocurrency-App
 This is Cryptocurrency App where one can see top 20 gainers and loser in every day crypto market . 
 This app shows a list of 500 crypto currencies and one can add their favourite crpto into watchlist .
+It also show their details along with their performance chart for different time intervals.
 Below video show the app in video format - 
 
 
